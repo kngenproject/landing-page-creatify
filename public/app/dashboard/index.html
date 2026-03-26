@@ -251,10 +251,10 @@
   /* ⬇⬇⬇  TAMBAH APP BARU DI SINI  ⬇⬇⬇  */
   /* Warna aksen tiap tile (opsional)       */
   /* ══════════════════════════════════════ */
-  .app-tile[data-app="cbt"]::before      { background: #6b8c5c; }
   .app-tile[data-app="tamma"]::before    { background: #b89a6a; }
-  .app-tile[data-app="poskirim"]::before { background: #5c7a8c; }
-  /* Tambah data-app baru sesuai kebutuhan */
+  .app-tile[data-app="voteku"]::before   { background: #8c6b9e; }
+  .app-tile[data-app="cbt"]::before      { background: #6b8c5c; }
+  .app-tile[data-app="absensi"]::before  { background: #5c7a8c; }
 
   /* ══════════════════════════════════════ */
   /* FOOTER */
@@ -344,36 +344,33 @@
            tile-badge = label kecil (opsional, hapus kalau tidak perlu)
          ════════════════════════════════════════════════════ -->
 
-    <a class="app-tile" data-app="cbt" href="/cbt-pro/index.html">
+    <a class="app-tile" data-app="tamma" href="https://tahfidh-dan-absensi.web.app/">
+      <span class="tile-icon">📖</span>
+      <div class="tile-name">Tamma</div>
+      <div class="tile-desc">Tahfidh & Absensi siswa</div>
+      <span class="tile-badge">Aktif</span>
+    </a>
+
+    <a class="app-tile" data-app="voteku" href="https://kngenproject.github.io/voting-massal/">
+      <span class="tile-icon">🗳️</span>
+      <div class="tile-name">Voteku</div>
+      <div class="tile-desc">Vote massal cepat & mudah</div>
+      <span class="tile-badge">Aktif</span>
+    </a>
+
+    <a class="app-tile" data-app="cbt" href="https://cbt-sekolah-568d8.web.app/">
       <span class="tile-icon">📝</span>
       <div class="tile-name">CBT Pro</div>
       <div class="tile-desc">Ujian berbasis komputer</div>
       <span class="tile-badge">Aktif</span>
     </a>
 
-    <a class="app-tile" data-app="tamma" href="/tamma/index.html">
-      <span class="tile-icon">📖</span>
-      <div class="tile-name">Tamma</div>
-      <div class="tile-desc">Setoran hafalan Quran</div>
+    <a class="app-tile" data-app="absensi" href="https://kngenproject.github.io/Absen-Siswa-QR/">
+      <span class="tile-icon">📷</span>
+      <div class="tile-name">AbsensiQR</div>
+      <div class="tile-desc">Absensi siswa via QR Code</div>
       <span class="tile-badge">Aktif</span>
     </a>
-
-    <a class="app-tile" data-app="poskirim" href="/poskirim/index.html">
-      <span class="tile-icon">📦</span>
-      <div class="tile-name">PosKirim</div>
-      <div class="tile-desc">Manajemen pengiriman</div>
-      <span class="tile-badge">Aktif</span>
-    </a>
-
-    <!-- CONTOH APP KOSONG — hapus atau isi sesuai kebutuhan -->
-    <!--
-    <a class="app-tile" data-app="nama-app" href="/nama-app/index.html">
-      <span class="tile-icon">🎯</span>
-      <div class="tile-name">Nama App</div>
-      <div class="tile-desc">Deskripsi singkat app</div>
-      <span class="tile-badge">Aktif</span>
-    </a>
-    -->
 
   </div>
 
