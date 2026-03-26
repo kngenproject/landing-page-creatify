@@ -700,11 +700,16 @@
   };
 
   // ═══════════════════════════════════════════════════════════
-  // AUTH STATE — Kalau sudah login, langsung redirect dashboard
+  // AUTH STATE — Redirect hanya saat baru login, bukan saat load
   // ═══════════════════════════════════════════════════════════
+  let isFirstAuthCheck = true;
   onAuthStateChanged(auth, (user) => {
+    if (isFirstAuthCheck) {
+      isFirstAuthCheck = false;
+      return; // Abaikan pengecekan pertama saat halaman load
+    }
     if (user) {
-      // User sudah login — redirect ke dashboard
+      // Baru login → redirect ke dashboard
       window.location.href = APP_CONFIG.paths.app.dashboard;
     }
   });
