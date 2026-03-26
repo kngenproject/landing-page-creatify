@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Creatify</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Nunito:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg:       #f4f8fd;
+    --blue:     #7ab3e0;
+    --blue-lt:  #deeef9;
+    --sky:      #a8d4f5;
+    --sky-lt:   #e8f4fd;
+    --deep:     #3a6fa8;
+    --text:     #1e3a5a;
+    --muted:    #7a9bbf;
+    --white:    #ffffff;
+  }
+
+  html, body {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Nunito', sans-serif;
+  }
+
+  body::before, body::after {
+    content: '';
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(70px);
+    pointer-events: none;
+    z-index: 0;
+  }
+  body::before {
+    width: 320px; height: 320px;
+    top: -80px; right: -60px;
+    background: radial-gradient(circle, #b8d8f588, transparent 70%);
+  }
+  body::after {
+    width: 260px; height: 260px;
+    bottom: -60px; left: -40px;
+    background: radial-gradient(circle, #c8e8f888, transparent 70%);
+  }
+
+  .shell {
+    position: relative;
+    z-index: 1;
+    height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 5vh 22px 3vh;
+    max-width: 420px;
+    margin: 0 auto;
+  }
+
+  /* ── TOP ── */
+  .top {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 6px;
+    opacity: 0;
+    animation: up 0.7s 0.1s ease forwards;
+  }
+
+  .logo-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--blue-lt);
+    border: 1.5px solid #b0d0ee;
+    padding: 4px 14px;
+    border-radius: 100px;
+    font-size: 9.5px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--deep);
+    margin-bottom: 8px;
+  }
+  .logo-pill::before, .logo-pill::after { content: '✦'; font-size: 6px; color: var(--blue); }
+
+  h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(54px, 16vw, 90px);
+    font-weight: 600;
+    line-height: 0.9;
+    letter-spacing: -0.02em;
+    color: var(--text);
+  }
+  h1 em {
+    font-style: italic;
+    background: linear-gradient(135deg, var(--blue), var(--sky));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .sub {
+    font-size: 12px;
+    font-weight: 300;
+    letter-spacing: 0.04em;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+
+  .stem {
+    width: 1px;
+    height: 28px;
+    background: linear-gradient(to bottom, transparent, var(--blue), transparent);
+    flex-shrink: 0;
+    opacity: 0;
+    animation: up 0.6s 0.3s ease forwards;
+  }
+
+  /* ── TAB NAV ── */
+  .tab-nav {
+    display: flex;
+    background: var(--blue-lt);
+    border-radius: 100px;
+    padding: 4px;
+    width: fit-content;
+    flex-shrink: 0;
+    opacity: 0;
+    animation: up 0.7s 0.4s ease forwards;
+    border: 1px solid #c0d8ee;
+  }
+
+  .tab-btn {
+    padding: 9px 22px;
+    border-radius: 100px;
+    border: none;
+    background: transparent;
+    font-family: 'Nunito', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    letter-spacing: 0.01em;
+    white-space: nowrap;
+  }
+
+  .tab-btn.active {
+    background: linear-gradient(135deg, var(--blue), var(--sky));
+    color: white;
+    box-shadow: 0 4px 16px rgba(100,160,220,0.35);
+  }
+
+  /* ── PANELS ── */
+  .tab-panel { display: none; width: 100%; }
+  .tab-panel.active {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    animation: panelIn 0.4s ease forwards;
+  }
+
+  @keyframes panelIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── UNDANGAN CARD ── */
+  .hero-card {
+    background: var(--white);
+    border-radius: 28px;
+    padding: 26px 26px 22px;
+    text-align: center;
+    width: 100%;
+    box-shadow: 0 8px 40px rgba(100,160,220,0.13), 0 2px 8px rgba(100,160,220,0.08);
+    border: 1px solid #d0e8f8;
+    position: relative;
+    overflow: hidden;
+    opacity: 0;
+    animation: up 0.8s 0.5s ease forwards;
+  }
+
+  .hero-card::before {
+    content: '';
+    position: absolute;
+    top: -40px; right: -40px;
+    width: 160px; height: 160px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #deeef9, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-card::after {
+    content: '✉';
+    position: absolute;
+    bottom: -4px; left: 16px;
+    font-size: 72px;
+    opacity: 0.06;
+    line-height: 1;
+    pointer-events: none;
+  }
+
+  .hero-ikon {
+    font-size: 34px;
+    display: block;
+    margin-bottom: 10px;
+  }
+
+  .hero-card h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(22px, 5.5vw, 28px);
+    font-weight: 600;
+    color: var(--text);
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    margin-bottom: 10px;
+  }
+  .hero-card h2 em {
+    font-style: italic;
+    background: linear-gradient(135deg, var(--blue), var(--sky));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-card p {
+    font-size: 12px;
+    line-height: 1.65;
+    color: var(--muted);
+    font-weight: 400;
+    margin-bottom: 18px;
+  }
+
+  .hero-btn {
+    display: inline-block;
+    padding: 11px 30px;
+    background: linear-gradient(135deg, var(--blue), var(--sky));
+    color: white;
+    border-radius: 100px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 12.5px;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    text-decoration: none;
+    transition: all 0.25s ease;
+    box-shadow: 0 4px 18px rgba(100,160,220,0.4);
+  }
+  .hero-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 28px rgba(100,160,220,0.5);
+  }
+
+  .features {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 5px;
+    margin-top: 14px;
+  }
+
+  .fpill {
+    padding: 4px 11px;
+    border-radius: 100px;
+    background: var(--sky-lt);
+    border: 1px solid #c0d8f0;
+    font-size: 10px;
+    color: var(--deep);
+    letter-spacing: 0.02em;
+    font-weight: 500;
+  }
+
+  /* ── APP CARD ── */
+  .app-card {
+    background: var(--white);
+    border-radius: 28px;
+    padding: 34px 26px 30px;
+    text-align: center;
+    width: 100%;
+    box-shadow: 0 8px 40px rgba(100,160,220,0.1);
+    border: 1px solid #d0e8f8;
+    opacity: 0;
+    animation: up 0.8s 0.5s ease forwards;
+  }
+
+  .app-ikon { font-size: 34px; display: block; margin-bottom: 10px; }
+
+  .app-card h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 26px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 10px;
+    letter-spacing: -0.01em;
+  }
+
+  .app-card p {
+    font-size: 12px;
+    line-height: 1.65;
+    color: var(--muted);
+    font-weight: 400;
+    margin-bottom: 20px;
+  }
+
+  .app-btn {
+    display: inline-block;
+    padding: 10px 30px;
+    background: transparent;
+    border: 1.5px solid var(--blue);
+    color: var(--deep);
+    border-radius: 100px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 12.5px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    text-decoration: none;
+    transition: all 0.25s ease;
+  }
+  .app-btn:hover { background: var(--blue-lt); }
+
+  .coming-badge {
+    display: inline-block;
+    margin-bottom: 12px;
+    padding: 3px 12px;
+    border-radius: 100px;
+    background: var(--blue-lt);
+    color: var(--deep);
+    font-size: 9.5px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+
+  footer {
+    font-size: 10px;
+    color: #a0c0d8;
+    letter-spacing: 0.08em;
+    text-align: center;
+    flex-shrink: 0;
+    opacity: 0;
+    animation: up 0.6s 0.7s ease forwards;
+  }
+
+  @keyframes up {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+</style>
+</head>
+<body>
+
+<div class="shell">
+
+  <div class="top">
+    <div class="logo-pill">Studio Digital</div>
+    <h1>Creat<em>ify</em></h1>
+    <p class="sub">Undangan digital untuk momen yang berarti</p>
+  </div>
+
+  <div class="stem"></div>
+
+  <div class="tab-nav">
+    <button class="tab-btn active" onclick="switchTab('undangan')">✉ Undangan Digital</button>
+    <button class="tab-btn"        onclick="switchTab('app')">⬡ App</button>
+  </div>
+
+  <!-- UNDANGAN -->
+  <div class="tab-panel active" id="tab-undangan">
+    <div class="hero-card">
+      <span class="hero-ikon">💌</span>
+      <h2>Undangan Digital<br><em>untuk momen yang Tak Terlupakan</em></h2>
+      <p>Pernikahan, walimah, khitanan, ulang tahun — cukup satu link, tamu langsung tahu segalanya.</p>
+      <a href="#" class="hero-btn">Buat Undangan Sekarang</a>
+      <div class="features">
+        <span class="fpill">✦ Animasi Halus</span>
+        <span class="fpill">✦ RSVP Digital</span>
+        <span class="fpill">✦ Galeri Foto</span>
+        <span class="fpill">✦ Countdown Hari H</span>
+        <span class="fpill">✦ Peta Lokasi</span>
+        <span class="fpill">✦ QR Code</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- APP -->
+  <div class="tab-panel" id="tab-app">
+    <div class="app-card">
+      <span class="coming-badge">Segera Hadir</span>
+      <span class="app-ikon">📱</span>
+      <h2>Creatify App</h2>
+      <p>Kelola semua undangan digitalmu dalam satu aplikasi. Pantau RSVP real-time dan bagikan lewat WhatsApp langsung dari genggaman.</p>
+      <a href="#" class="app-btn">Daftar Akses Awal</a>
+    </div>
+  </div>
+
+  <footer>© 2025 Creatify · Dibuat dengan ✦ untuk momen yang berarti</footer>
+
+</div>
+
+<script>
+  function switchTab(id) {
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    document.getElementById('tab-' + id).classList.add('active');
+    document.querySelectorAll('.tab-btn').forEach((b, i) => {
+      b.classList.toggle('active', (i === 0 && id === 'undangan') || (i === 1 && id === 'app'));
+    });
+  }
+</script>
+</body>
+</html>
